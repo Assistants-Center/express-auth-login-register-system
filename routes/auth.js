@@ -52,8 +52,6 @@ router.use((req,res,next)=>{
         req.body={};
     }
 
-    console.log(req.body)
-
     next();
 });
 
