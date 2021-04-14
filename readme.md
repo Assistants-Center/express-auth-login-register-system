@@ -1,6 +1,17 @@
-# userTable
+# Start
 
-## Contains information about the user with his UUID:
+```
+cd c:/folder/path
+npm i
+node .
+```
+
+
+# Database explain
+
+## userTable
+
+### Contains information about the user with his UUID:
 
 ```
 new table("user").get(userUUID)
@@ -15,9 +26,9 @@ new table("user").get(userUUID)
 }
 ```
 
-# emailTable
+## emailTable
 
-## Contains user UUID by their email:
+### Contains user UUID by their email:
 
 ```
 new table("email").get(email)
@@ -27,9 +38,9 @@ new table("email").get(email)
 "userUUID"
 ```
 
-# usernameTable
+## usernameTable
 
-## Contains user UUID by their username:
+### Contains user UUID by their username:
 
 ```
 new table("username").get(username)
