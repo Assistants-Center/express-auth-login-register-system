@@ -6,6 +6,10 @@ npm i
 node .
 ```
 
+## url
+
+by default, go to http://localhost/
+
 
 # Database explain
 
