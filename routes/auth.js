@@ -108,6 +108,13 @@ router.route('/register')
     .post(async (req,res)=>{
         if(!req.body.email || !req.body.password || !req.body.username)return res.send({error:true,message:"Parametrs missing."});
 
+        function validateEmail(email) {
+            const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(String(email).toLowerCase());
+        }
+
+        if(!validateEmail(req.body.email.replaceAll('%dot%', '.')))return res.send({error:true,message:"E-mail input value is not an e-mail adress."});
+
         const userExist = await userExistAlready(req.body.email, req.body.username);
         if(userExist.result == true){
             if(userExist.used == "username")return res.send({error:true,message:"Username already taken."});
