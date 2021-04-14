@@ -1,5 +1,17 @@
 const express = require('express');
 const db = require('quick.db');
+const rateLimit = require("express-rate-limit");
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 50, // limit each IP to 50 requests per 15 minutes
+    message: {error:true,message:"You are ratelimited, only 50 requests per 15 minutes allowed to auth route."}
+  });
+
+const registerLimiter = rateLimit({
+    windowMs: 60 * 60 * 1000, // 1 hour
+    max: 5, // limit each IP to 5 requests per 1 hour
+    message: {error:true,message:"You are ratelimited, only 5 requests per 1 hour allowed to /auth/register POST route."}
+  });
 
 const emailTable = new db.table("email");
 const usernameTable = new db.table("username");
@@ -20,6 +32,8 @@ function uuidv4() {
   }
 
 const router= express.Router();
+
+router.use(limiter);
 
 router.use((req,res,next)=>{
     if(req.body){
@@ -105,7 +119,7 @@ router.route('/register')
     .get((req,res)=>{
         return res.send({error:true,message:"Wrong method of request used, POST required."});
     })
-    .post(async (req,res)=>{
+    .post(registerLimiter, async (req,res)=>{
         if(!req.body.email || !req.body.password || !req.body.username)return res.send({error:true,message:"Parametrs missing."});
 
         function validateEmail(email) {
