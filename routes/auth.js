@@ -38,6 +38,8 @@ router.use((req,res,next)=>{
         req.body={};
     }
 
+    console.log(req.body)
+
     next();
 });
 
@@ -60,7 +62,7 @@ const loginAccountCheck = async (parametr) => {
     return {result:true,data:data};
 };
 
-const saveUserData = async (email,username,password) => {
+const saveUserData = async (email,username,password,req) => {
     const uuid = uuidv4();
     await emailTable.set(email, uuid);
     await usernameTable.set(username, uuid);
@@ -70,6 +72,7 @@ const saveUserData = async (email,username,password) => {
         password: password,
         uuid: uuid
     });
+    req.session.user = {email,username,password,uuid};
 };
 
 router.route('/')
@@ -112,7 +115,7 @@ router.route('/register')
             return res.send({error:true,message:"One of the parametrs already taken."});
         }
 
-        await saveUserData(req.body.email, req.body.username, req.body.password);
+        await saveUserData(req.body.email, req.body.username, req.body.password, req);
         return res.send({error:false});
     });
 

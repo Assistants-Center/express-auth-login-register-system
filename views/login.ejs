@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+            <a>
+                Parametr (email OR username)
+            </a>
+            <input name="parametr" id="parametr">
+            <a>
+                Password
+            </a>
+            <input name="password" id="password">
+            <div id="errorDiv"></div>
+            <button id="submitButton" onclick="submit()">Submit</button>
+
+
+            <button onclick="window.location.href='/register'">Or register now</button>
+
+        <script>
+            const errorDiv = document.getElementById("errorDiv");
+            const parametr = document.getElementById("parametr");
+            const password = document.getElementById("password");
+
+            function submit() {
+                fetch("http://localhost/auth/login", {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        parametr: parametr.value,
+                        password: password.value
+                    })
+                }).then(res=>res.json()).then(json=>{
+                    if(json.error == true)return errorDiv.innerHTML = json.message;
+                    errorDiv.innerHTML = "FINE!";
+                    window.location.href='/';
+                })
+            }
+        </script>
+    </body>
+</html>

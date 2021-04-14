@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+            <a>
+                Email
+            </a>
+            <input name="email" id="email">
+            <a>
+                Username
+            </a>
+            <input name="username" id="username">
+            <a>
+                Password
+            </a>
+            <input name="password" id="password">
+            <div id="errorDiv"></div>
+            <button id="submitButton" onclick="submit()">Submit</button>
+
+
+            <button onclick="window.location.href='/login'">Or login now</button>
+
+        <script>
+            const errorDiv = document.getElementById("errorDiv");
+            const email = document.getElementById("email");
+            const username = document.getElementById("username");
+            const password = document.getElementById("password");
+
+            function submit() {
+                fetch("http://localhost/auth/register", {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: email.value,
+                        username: username.value,
+                        password: password.value
+                    })
+                }).then(res=>res.json()).then(json=>{
+                    if(json.error == true)return errorDiv.innerHTML = json.message;
+                    errorDiv.innerHTML = "FINE!";
+                    window.location.href='/';
+                })
+            }
+        </script>
+    </body>
+</html>

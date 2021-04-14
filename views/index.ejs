@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+    <body>
+        <%
+        if(req.session.user){
+        %>
+            <h1>Hello, <%=req.session.user.username%>!</h1>
+            <p>Your UUID: <%=req.session.user.uuid%></p>
+            <p>You can <a href="/logout">log out</a> now</p>
+        <%
+        }else{
+        %>
+            <p>No user found</p>
+            <button onclick="window.location.href='/login'">Login first</button>
+        <%
+        }
+        %>
+    </body>
+</html>

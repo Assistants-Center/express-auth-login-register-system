@@ -21,8 +21,27 @@ app.use(session({
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
 
-app.use('/auth', require('./routes/auth'))
+app.use('/auth', require('./routes/auth'));
+
+app.get('/login', (req,res) => {
+  if(req.session.user)return res.redirect('/');
+  res.render('login', {req});
+});
+
+app.get('/register', (req,res) => {
+  if(req.session.user)return res.redirect('/');
+  res.render('register', {req});
+});
+
+app.get('/logout', (req,res) => {
+  req.session.destroy();
+  res.redirect('/');
+});
+
+app.get('*', (req,res) => {
+  res.render('index', {req});
+})
 
 app.listen(config.port, () => {
-  console.log(`Listening on port ${config.port}!`)
+  console.log(`Listening on port ${config.port}!`);
 });
