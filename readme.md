@@ -15,6 +15,8 @@ by default, go to http://localhost/
 
 ## userTable
 
+where `table = db.table` and `db = require('quick.db')`
+
 ### Contains information about the user with his UUID:
 
 ```
