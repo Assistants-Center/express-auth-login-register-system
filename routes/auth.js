@@ -84,7 +84,7 @@ const saveUserData = async (email,username,password,req) => {
         password: password,
         uuid: uuid
     });
-    req.session.user = {email,username,password,uuid};
+    req.session.user = {email,username,uuid};
 };
 
 router.route('/')
